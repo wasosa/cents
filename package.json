@@ -1,0 +1,15 @@
+{
+  "name": "cents",
+  "version": "0.1.0",
+  "description": "Cents budgetting app",
+  "main": "main.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "author": "Walter Sosa <wasosa@yahoo.com>",
+  "license": "MIT",
+  "dependencies": {
+    "mocha": "^10.2.0",
+    "selenium-webdriver": "^4.14.0"
+  }
+}
