@@ -1,11 +1,6 @@
 const {By, Builder} = require('selenium-webdriver');
 const assert = require("assert");
 
-async function testElementExists(driver, id)
-{
-    assert(await driver.findElement(By.id(id)));
-}
-
 before(function() {
     let driver;
 });
@@ -24,9 +19,9 @@ describe('Cent page', function() {
     it('has expected elements', async function() {
         let title = await driver.getTitle();
         assert.equal("Cents", title);
-        await testElementExists(driver, 'transactions-file');
-        await testElementExists(driver, 'load-transactions-button');
-        await testElementExists(driver, 'clear-transactions-button');
-        await testElementExists(driver, 'transactions-table');
+        assert(await driver.findElement(By.id('transactions-file')));
+        assert(await driver.findElement(By.id('load-transactions-button')));
+        assert(await driver.findElement(By.id('clear-transactions-button')));
+        assert(await driver.findElement(By.id('transactions-table')));
     });
 });

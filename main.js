@@ -1,14 +1,6 @@
-var theTransactions = [];
+// ------------------- Called by UI --------------------
 
-function getElementById(id)
-{
-    let element = document.getElementById(id);
-    if (element) {
-        return element;
-    }
-    throw `Could not find element with id: ${id}`;
-}
-
+// Called by clicking "Load File" button
 function loadTransactions()
 {
     console.debug("called loadDataFile()");
@@ -22,6 +14,23 @@ function loadTransactions()
     reader.onload = transactionsFileLoaded;
 }
 
+// Called by clicking "Clear File" button
+function clearTransactions()
+{
+    updateTransactionsTable([]);
+}
+
+// -------------------- The rest --------------------
+
+function getElementById(id)
+{
+    let element = document.getElementById(id);
+    if (element) {
+        return element;
+    }
+    throw `Could not find element with id: ${id}`;
+}
+
 function transactionsFileLoaded(event)
 {
     console.debug("called transactionsFileLoaded()");
@@ -31,22 +40,21 @@ function transactionsFileLoaded(event)
         console.error('Could not find transactions.');
         return;
     }
-    theTransactions = contents.transactions;
-    updateTransactionsTable();
+    updateTransactionsTable(contents.transactions);
 }
 
-function updateTransactionsTable()
+function updateTransactionsTable(transactions)
 {
     console.debug("called updateTransactionTable()");
     let table = getElementById("transactions-table");
     table.innerHTML = '';
 
-    if (theTransactions.length == 0) {
+    if (transactions.length == 0) {
         return;
     }
 
     // Create the headers
-    let columns = Object.keys(theTransactions[0]);
+    let columns = Object.keys(transactions[0]);
     let tr = document.createElement('tr');
     columns.forEach(function(header) {
         let th = document.createElement('th');
@@ -56,7 +64,7 @@ function updateTransactionsTable()
     table.append(tr);
 
     // Create the rows
-    theTransactions.forEach(function(row) {
+    transactions.forEach(function(row) {
         tr = document.createElement('tr');
         columns.forEach(function(key) {
             let td = document.createElement('td');
@@ -65,44 +73,4 @@ function updateTransactionsTable()
         });
         table.append(tr);
     });
-}
-
-// Called by clicking "Clear File" button
-function clearTransactions()
-{
-    theTransactions = [];
-    updateTransactionsTable();
-}
-
-function main()
-{
-    console.debug("# main()");
-}
-
-// ---------- start of testing code ----------
-
-function assert_equal(actual, expected)
-{
-    if (actual !== expected) {
-        throw new Error(`\n\nExpected: ${expected}\n  Actual: ${actual}\n`)
-    }
-}
-
-function test()
-{
-    // We are not running inside a browser!
-    console.debug("Not in the browser");
-    console.debug("Running tests!");
-
-    // TODO: run tests
-
-    console.debug("All tests passed!");
-}
-
-// ---------- end of testing code ----------
-
-if (typeof document === 'undefined') {
-    test();
-} else {
-    main();
 }
